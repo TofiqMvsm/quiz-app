@@ -10,6 +10,8 @@
 .main{
     width: 75%;
     background:linear-gradient(to bottom,rgba(0,0,0,0),#020230), url('./assets/bg.jpg') center;
+    background-repeat: no-repeat;
+    background-size: cover;
     display: flex;
     flex-direction: column;
 }
@@ -155,3 +157,11 @@
 
 
 
+.endText{
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
