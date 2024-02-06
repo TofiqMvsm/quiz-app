@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react"
+import useSound from "use-sound";
+import play from '../assets/sounds/play.mp3'
+import correct from '../assets/sounds/correct.mp3'
+import wait from '../assets/sounds/wait.mp3'
+import wrong from '../assets/sounds/wrong.mp3'
+
+
 
 export default function Trivia({data,setStop,questionNumber,setQuestionNumber}) {
   const [question,setQuestion] = useState(null)
   const [selectedAnswer,setSelectedAnswer] = useState(null)
   const [className,setClassName] = useState('answer')
+  const [letsPlay] = useSound(play)
+  const [correctAnswer] = useSound(correct)
+  const [wrongAnswer] = useSound(wrong)
   
+
+  useEffect(()=>{
+    letsPlay()
+  },[letsPlay])
+
+
+
   useEffect(()=>{
     setQuestion(data[questionNumber-1])
   },[data,questionNumber])
@@ -22,11 +39,17 @@ export default function Trivia({data,setStop,questionNumber,setQuestionNumber}) 
     delay(3000,()=>setClassName(e.correct ? 'answer correct' : 'answer wrong'))
     delay(6000,()=>{
       if(e.correct){
-        setQuestionNumber(prev=>prev + 1)
-        selectedAnswer(null)
+        correctAnswer()
+        delay(1000,()=>{
+          setQuestionNumber(prev=>prev + 1)
+          selectedAnswer(null)
+        })
       }
       else{
-        setStop(true)
+        wrongAnswer()
+        delay(1000,()=>{
+          setStop(true)
+        })
       }
     })
     

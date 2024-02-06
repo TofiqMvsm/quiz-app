@@ -3,14 +3,16 @@ import "./app.css";
 import { moneyPyramid } from "./data";
 import Trivia from "./components/Trivia";
 import {data} from './data'
+import Timer from "./components/Timer";
+import Start from "./components/Start";
+
+
 function App() {
   const [stop,setStop] = useState(false)
   const [questionNumber,setQuestionNumber] = useState(1)
   const [earned,setEarned] = useState("$ 0")
-
-  const moneyPyramidMemo = useMemo(()=>{
-    moneyPyramid
-  },[])
+  const [userName,setUsername] = useState(null)
+ 
 
   useEffect(()=>{
     questionNumber > 1 && setEarned(moneyPyramid.find(m=>m.id === questionNumber-1).amount)
@@ -18,11 +20,13 @@ function App() {
 
   return (
     <div className="app">
+    {userName ? (
+      <>
       <div className="main">
         {stop ? <h1 className="endText">You earned: {earned}</h1> : (
          <>
          <div className="top">
-          <div className="timer">30</div>
+          <div className="timer"><Timer setStop={setStop} questionNumber={questionNumber} /></div>
         </div>
         <div className="bottom">
           <Trivia data={data} setStop={setStop} setQuestionNumber={setQuestionNumber} questionNumber={questionNumber}/>
@@ -43,6 +47,9 @@ function App() {
           })}
         </ul>
       </div>
+      </>
+    ) : <Start setUsername={setUsername}/>}
+      
     </div>
   );
 }
